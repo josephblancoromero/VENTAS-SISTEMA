@@ -1,0 +1,98 @@
+﻿@model List<Fecomvr1._2.Entidades.Proveedor>
+@{
+    ViewData["Title"] = "Proveedores";
+    var totalProveedores = Model.Count;
+}
+
+<div class="container-fluid mt-3">
+    <div class="card text-white shadow-sm mb-4" style="background: linear-gradient(135deg, #17a2b8, #00acc1);">
+        <div class="card-body d-flex justify-content-between align-items-center flex-wrap">
+            <div>
+                <h2><i class="bi bi-truck"></i> Proveedores</h2>
+                <p>Total de proveedores: <strong>@totalProveedores</strong></p>
+            </div>
+            <a asp-action="Create" class="btn btn-light rounded-circle shadow ms-2" title="Agregar Proveedor">
+                <i class="bi bi-plus-lg fs-4"></i>
+            </a>
+        </div>
+    </div>
+
+    @Html.AntiForgeryToken() <!-- Token CSRF necesario -->
+
+    <div class="table-responsive shadow-sm rounded">
+        <table id="proveedoresTable" class="table table-hover align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th>Nombre</th>
+                    <th>Contacto</th>
+                    <th>Modificar</th>
+                    <th>Eliminar</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var proveedor in Model)
+                {
+                    <tr>
+                        <td>@proveedor.Nombre</td>
+                        <td>@proveedor.Contacto</td>
+                        <td>
+                            <a asp-controller="Proveedores" asp-action="Editar" asp-route-id="@proveedor.ProveedorId" class="btn btn-warning btn-sm">
+                                <i class="bi bi-pencil-square"></i>
+                            </a>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-danger btn-sm"
+                                    onclick="confirmarEliminacion(@proveedor.ProveedorId, '@proveedor.Nombre')">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        $(document).ready(function () {
+            $('#proveedoresTable').DataTable({
+                language: { url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json' },
+                pageLength: 10,
+                lengthMenu: [5, 10, 25, 50],
+                ordering: true,
+                dom: 'lrtip'
+            });
+        });
+
+        function confirmarEliminacion(proveedorId, proveedorNombre) {
+            Swal.fire({
+                title: '¿Está seguro de eliminar el proveedor?',
+                html: '<strong>' + proveedorId + '</strong> - <strong>' + proveedorNombre + '</strong> será eliminado.',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Eliminar',
+                cancelButtonText: 'Cancelar',
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const form = document.createElement('form');
+                    form.method = 'post';
+                    form.action = `/Proveedores/Eliminar/${proveedorId}`;
+
+                    const antiForgeryInput = document.createElement('input');
+                    antiForgeryInput.type = 'hidden';
+                    antiForgeryInput.name = '__RequestVerificationToken';
+                    antiForgeryInput.value = $('input[name="__RequestVerificationToken"]').val();
+                    form.appendChild(antiForgeryInput);
+
+                    document.body.appendChild(form);
+                    form.submit();
+                }
+            });
+        }
+    </script>
+}

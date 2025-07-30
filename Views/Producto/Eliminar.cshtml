@@ -1,0 +1,43 @@
+﻿@model Fecomvr1._2.Entidades.Producto
+
+<div class="card shadow-sm border-0 mt-4">
+    <div class="card-header bg-danger text-white">
+        <h4 class="mb-0">
+            <i class="bi bi-trash"></i> Eliminar Producto
+        </h4>
+    </div>
+    <div class="card-body bg-light">
+        <h5 class="text-danger">
+            <i class="bi bi-exclamation-triangle-fill"></i> ¿Estás seguro de que deseas eliminar este producto?
+        </h5>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-3 fw-semibold">Nombre:</dt>
+            <dd class="col-sm-9">@Model.Nombre</dd>
+
+            <dt class="col-sm-3 fw-semibold">Precio:</dt>
+            <dd class="col-sm-9">@Model.Precio</dd>
+
+            <dt class="col-sm-3 fw-semibold">Stock:</dt>
+            <dd class="col-sm-9">@Model.Stock</dd>
+
+            <dt class="col-sm-3 fw-semibold">Categoría:</dt>
+            <dd class="col-sm-9">@ViewBag.NombreCategoria</dd>
+
+            <dt class="col-sm-3 fw-semibold">Proveedor:</dt>
+            <dd class="col-sm-9">@ViewBag.NombreProveedor</dd>
+        </dl>
+
+        <form asp-controller="Producto" asp-action="Eliminar" method="post" class="mt-3">
+            <input type="hidden" asp-for="ProductoId" />
+            <div class="d-flex justify-content-between">
+                <button type="submit" class="btn btn-danger">
+                    <i class="bi bi-trash-fill"></i> Confirmar Eliminación
+                </button>
+                <a asp-action="Index" class="btn btn-secondary">
+                    <i class="bi bi-x-circle"></i> Cancelar
+                </a>
+            </div>
+        </form>
+    </div>
+</div>

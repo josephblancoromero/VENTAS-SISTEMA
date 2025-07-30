@@ -1,0 +1,145 @@
+﻿@model Fecomvr1._2.Entidades.Factura
+
+@{
+    ViewData["Title"] = "Crear Factura";
+}
+
+<div class="container mt-3">
+    <div class="card shadow-sm border-0">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+            <h4 class="mb-0"><i class="bi bi-receipt"></i> Crear Factura</h4>
+            <a asp-action="Index" class="btn btn-light btn-sm">
+                <i class="bi bi-arrow-left"></i> Volver
+            </a>
+        </div>
+        <div class="card-body bg-light">
+            <form asp-action="Create" method="post">
+                <div asp-validation-summary="All" class="text-danger"></div>
+
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label asp-for="Fecha" class="form-label fw-semibold">Fecha de Emisión:</label>
+                        <input asp-for="Fecha" type="date" class="form-control" required id="fechaInput" />
+                        <span asp-validation-for="Fecha" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="Cliente" class="form-label fw-semibold">Cliente:</label>
+                        <input asp-for="Cliente" class="form-control" placeholder="Nombre del cliente" required />
+                        <span asp-validation-for="Cliente" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="table-responsive mb-3">
+                    <table id="productosTable" class="table table-striped align-middle">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Producto</th>
+                                <th>Precio</th>
+                                <th>Cantidad</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (int i = 0; i < Model.Productos.Count; i++)
+                            {
+                                <tr>
+                                    <td>
+                                        <input asp-for="@Model.Productos[i].Nombre" class="form-control" />
+                                        <span asp-validation-for="@Model.Productos[i].Nombre" class="text-danger"></span>
+                                    </td>
+                                    <td>
+                                        <input asp-for="@Model.Productos[i].Precio" class="form-control" oninput="recalcularTotales()" />
+                                        <span asp-validation-for="@Model.Productos[i].Precio" class="text-danger"></span>
+                                    </td>
+                                    <td>
+                                        <input asp-for="@Model.Productos[i].Stock" class="form-control" oninput="recalcularTotales()" />
+                                        <span asp-validation-for="@Model.Productos[i].Stock" class="text-danger"></span>
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-danger btn-sm" onclick="eliminarFila(this)">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+                <button type="button" class="btn btn-success mb-3" onclick="agregarProducto()">
+                    <i class="bi bi-plus-lg"></i> Agregar Producto
+                </button>
+
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label asp-for="IGV18" class="form-label fw-semibold">Valor Base (sin IGV):</label>
+                        <input asp-for="IGV18" id="IGV18" class="form-control" readonly />
+                        <span asp-validation-for="IGV18" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="TotalIGV18" class="form-label fw-semibold">Total con IGV 18%:</label>
+                        <input asp-for="TotalIGV18" id="TotalIGV18" class="form-control" readonly />
+                        <span asp-validation-for="TotalIGV18" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-end">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-save"></i> Guardar Factura
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Configurar fecha actual al cargar
+        document.addEventListener('DOMContentLoaded', () => {
+            const fechaInput = document.getElementById('fechaInput');
+            const today = new Date().toISOString().split('T')[0];
+            fechaInput.value = today;
+        });
+
+        function agregarProducto() {
+            const table = document.getElementById("productosTable").getElementsByTagName('tbody')[0];
+            const rowCount = table.rows.length;
+            const newRow = table.insertRow(rowCount);
+
+            newRow.innerHTML = `
+                <tr>
+                    <td><input name="Productos[${rowCount}].Nombre" class="form-control" /></td>
+                    <td><input name="Productos[${rowCount}].Precio" class="form-control" oninput="recalcularTotales()" /></td>
+                    <td><input name="Productos[${rowCount}].Stock" class="form-control" oninput="recalcularTotales()" /></td>
+                    <td>
+                        <button type="button" class="btn btn-danger btn-sm" onclick="eliminarFila(this)">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+            `;
+            recalcularTotales();
+        }
+
+        function eliminarFila(btn) {
+            const row = btn.closest("tr");
+            row.remove();
+            recalcularTotales();
+        }
+
+        function recalcularTotales() {
+            const table = document.getElementById("productosTable").getElementsByTagName('tbody')[0];
+            let total = 0;
+
+            for (let i = 0; i < table.rows.length; i++) {
+                const precio = parseFloat(table.rows[i].cells[1].querySelector('input').value) || 0;
+                const cantidad = parseFloat(table.rows[i].cells[2].querySelector('input').value) || 0;
+                total += precio * cantidad;
+            }
+
+            document.getElementById("IGV18").value = (total / 1.18).toFixed(2);
+            document.getElementById("TotalIGV18").value = total.toFixed(2);
+        }
+    </script>
+}

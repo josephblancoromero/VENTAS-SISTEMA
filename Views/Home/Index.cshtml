@@ -1,0 +1,65 @@
+﻿@{
+    ViewData["Title"] = "Inicio";
+}
+
+<div class="container-fluid">
+    <div class="p-4 mb-4 bg-primary text-white rounded shadow-sm">
+        <h1 class="display-5 fw-bold">Bienvenido, @ViewData["Usuario"]</h1>
+        <p class="lead mb-0">Empresa: <strong>@ViewData["Empresa"]</strong></p>
+        <p class="mb-0">Rol: <strong>@ViewData["Rol"]</strong></p>
+    </div>
+
+    <div class="row g-4">
+        <!-- Tarjeta de acceso rápido 1 -->
+        <div class="col-md-6 col-xl-3">
+            <div class="card text-white bg-success h-100 shadow">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="bi bi-box"></i> Productos</h5>
+                    <p class="card-text">Ver listado y registrar productos.</p>
+                </div>
+                <div class="card-footer">
+                    <a asp-controller="Producto" asp-action="Index" class="text-white stretched-link">Ir</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tarjeta de acceso rápido 2 -->
+        <div class="col-md-6 col-xl-3">
+            <div class="card text-white bg-info h-100 shadow">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="bi bi-tags"></i> Categorías</h5>
+                    <p class="card-text">Administra tus categorías.</p>
+                </div>
+                <div class="card-footer">
+                    <a asp-controller="Categorias" asp-action="Index" class="text-white stretched-link">Ir</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tarjeta de acceso rápido 3 -->
+        <div class="col-md-6 col-xl-3">
+            <div class="card text-white bg-warning h-100 shadow">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="bi bi-truck"></i> Proveedores</h5>
+                    <p class="card-text">Gestiona tus proveedores.</p>
+                </div>
+                <div class="card-footer">
+                    <a asp-controller="Proveedores" asp-action="Index" class="text-white stretched-link">Ir</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tarjeta de acceso rápido 4 -->
+        <div class="col-md-6 col-xl-3">
+            <div class="card text-white bg-danger h-100 shadow">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="bi bi-file-earmark-text"></i> Facturas</h5>
+                    <p class="card-text">Consulta y crea nuevas facturas.</p>
+                </div>
+                <div class="card-footer">
+                    <a asp-controller="Facturas" asp-action="Index" class="text-white stretched-link">Ir</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

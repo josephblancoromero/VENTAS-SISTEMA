@@ -1,0 +1,31 @@
+﻿@model Fecomvr1._2.Entidades.Proveedor
+
+<div class="card shadow-sm border-0">
+    <div class="card-header bg-success text-white">
+        <h4 class="mb-0"><i class="bi bi-plus-circle"></i> Agregar Proveedor</h4>
+    </div>
+    <div class="card-body bg-light">
+        <form asp-action="Create" method="post">
+            <div asp-validation-summary="All" class="text-danger mb-3"></div>
+
+            <div class="mb-3">
+                <label asp-for="Nombre" class="form-label fw-semibold">Nombre</label>
+                <input asp-for="Nombre" class="form-control" placeholder="Ingrese nombre del proveedor" />
+                <span asp-validation-for="Nombre" class="text-danger"></span>
+            </div>
+
+            <div class="mb-4">
+                <label asp-for="Contacto" class="form-label fw-semibold">Contacto</label>
+                <input asp-for="Contacto" class="form-control" placeholder="Ingrese contacto" />
+                <span asp-validation-for="Contacto" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn btn-success">
+                <i class="bi bi-save"></i> Agregar Proveedor
+            </button>
+            <a asp-action="Index" class="btn btn-secondary">
+                <i class="bi bi-x-circle"></i> Cancelar
+            </a>
+        </form>
+    </div>
+</div>

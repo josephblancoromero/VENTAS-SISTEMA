@@ -1,0 +1,17 @@
+﻿@model Fecomvr1._2.Entidades.Categoria
+
+<h2>Eliminar Categoría</h2>
+
+<p>¿Estás seguro de que deseas eliminar la categoría "@Model.Nombre"?</p>
+
+<form asp-controller="Categorias" asp-action="Eliminar" method="post">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <input type="hidden" asp-for="CategoriaId" />
+
+    <button type="submit" class="btn btn-danger">
+        <i class="bi bi-trash"></i> Eliminar
+    </button>
+    <a asp-action="Index" class="btn btn-secondary">
+        <i class="bi bi-x"></i> Cancelar
+    </a>
+</form>

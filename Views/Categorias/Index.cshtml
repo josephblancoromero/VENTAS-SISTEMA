@@ -1,0 +1,98 @@
+﻿@model List<Fecomvr1._2.Entidades.Categoria>
+@{
+    ViewData["Title"] = "Categorías";
+    var totalCategorias = Model.Count;
+}
+
+<div class="container-fluid mt-3">
+    <div class="card text-white shadow-sm mb-4" style="background: linear-gradient(135deg, #28a745, #00c851);">
+        <div class="card-body d-flex justify-content-between align-items-center flex-wrap">
+            <div>
+                <h2><i class="bi bi-tags"></i> Categorías</h2>
+                <p>Total de categorías: <strong>@totalCategorias</strong></p>
+            </div>
+            <a asp-action="Create" class="btn btn-light rounded-circle shadow ms-2" title="Agregar Categoría">
+                <i class="bi bi-plus-lg fs-4"></i>
+            </a>
+        </div>
+    </div>
+
+    @Html.AntiForgeryToken() <!-- Necesario para token CSRF en el modal -->
+
+    <div class="table-responsive shadow-sm rounded">
+        <table id="categoriasTable" class="table table-hover align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th>Nombre</th>
+                    <th>Descripción</th>
+                    <th>Modificar</th>
+                    <th>Eliminar</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var categoria in Model)
+                {
+                    <tr>
+                        <td>@categoria.Nombre</td>
+                        <td>@categoria.Descripcion</td>
+                        <td>
+                            <a asp-controller="Categorias" asp-action="Editar" asp-route-id="@categoria.CategoriaId" class="btn btn-warning btn-sm">
+                                <i class="bi bi-pencil-square"></i>
+                            </a>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-danger btn-sm"
+                                    onclick="confirmarEliminacion(@categoria.CategoriaId, '@categoria.Nombre')">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        $(document).ready(function () {
+            $('#categoriasTable').DataTable({
+                language: { url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json' },
+                pageLength: 10,
+                lengthMenu: [5, 10, 25, 50],
+                ordering: true,
+                dom: 'lrtip'
+            });
+        });
+
+        function confirmarEliminacion(categoriaId, categoriaNombre) {
+            Swal.fire({
+                title: '¿Está seguro de eliminar la categoría?',
+                html: '<strong>' + categoriaId + '</strong> - <strong>' + categoriaNombre + '</strong> será eliminada.',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Eliminar',
+                cancelButtonText: 'Cancelar',
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const form = document.createElement('form');
+                    form.method = 'post';
+                    form.action = `/Categorias/Eliminar/${categoriaId}`;
+
+                    const antiForgeryInput = document.createElement('input');
+                    antiForgeryInput.type = 'hidden';
+                    antiForgeryInput.name = '__RequestVerificationToken';
+                    antiForgeryInput.value = $('input[name="__RequestVerificationToken"]').val();
+                    form.appendChild(antiForgeryInput);
+
+                    document.body.appendChild(form);
+                    form.submit();
+                }
+            });
+        }
+    </script>
+}

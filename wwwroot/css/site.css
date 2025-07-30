@@ -1,0 +1,87 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+    background-color: #f8f9fa; /* fondo claro para el contenido */
+    color: #212529; /* texto oscuro para contraste */
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar {
+    background-color: #343a40; /* fondo oscuro sidebar */
+    min-height: 100vh;
+    color: white;
+}
+
+.sidebar .nav-link {
+    color: #ddd;
+}
+
+.sidebar .nav-link:hover {
+    background-color: #495057;
+    color: white;
+}
+
+/*.table th, .table td {
+    color: #212529;
+}*/
+
+.table-dark th,
+.bg-dark th,
+thead.bg-dark th {
+    color: #fff !important;
+}
+
+.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
+  color: var(--bs-secondary-color);
+  text-align: end;
+}
+
+.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
+  text-align: start;
+}
+
+.hidden {
+    display: none;
+}
+
+.flex-shrink-0 {
+    margin-left: 10px; /* Espacio entre la barra vertical y el divisor */
+}
+
+.vertical-divider {
+    border-right: 1px solid #dee2e6; /* Línea vertical como divisor */
+    height: 100vh; /* Altura máxima de la línea vertical */
+    position: fixed; /* Fijar la línea vertical */
+    top: 0;
+    left: 280px; /* Ancho de la barra vertical */
+}
+
+.copyright {
+    color: white;
+}
+
+#qrCode {
+    border: 20px solid #fff; /* Borde blanco para resaltar */
+    background-color: #fff;
+    padding: 10px;
+}
+

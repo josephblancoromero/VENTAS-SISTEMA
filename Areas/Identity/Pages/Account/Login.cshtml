@@ -1,0 +1,81 @@
+﻿@page
+@model LoginModel
+
+@{
+    ViewData["Title"] = "Login";
+}
+
+<section class="vh-100 gradient-custom">
+    <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+                <div class="card bg-dark text-white" style="border-radius: 1rem;">
+                    <div class="card-body p-5 text-center">
+                        <form id="account" method="post">
+                            <div class="mb-md-5 mt-md-4 pb-5">
+
+                                <h2 class="fw-bold mb-2 text-uppercase">Login</h2>
+                                <p class="text-white-50 mb-5">Por favor, introduzca su nombre de usuario y contraseña!</p>
+
+                                <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+
+                                <div class="form-outline form-white mb-4">
+                                    <input asp-for="Input.Email" class="form-control form-control-lg" autocomplete="username" aria-required="true" placeholder="name@example.com" />
+                                    <label asp-for="Input.Email" class="form-label">Email</label>
+                                    <span asp-validation-for="Input.Email" class="text-danger"></span>
+                                </div>
+
+                                <div class="form-outline form-white mb-4">
+                                    <input asp-for="Input.Password" class="form-control form-control-lg" autocomplete="current-password" aria-required="true" placeholder="password" />
+                                    <label asp-for="Input.Password" class="form-label">Password</label>
+                                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+                                </div>
+
+                                <div class="form-check d-flex justify-content-start mb-4">
+                                    <input class="form-check-input" type="checkbox" asp-for="Input.RememberMe" />
+                                    <label asp-for="Input.RememberMe" class="form-check-label ms-2">
+                                        @Html.DisplayNameFor(m => m.Input.RememberMe)
+                                    </label>
+                                </div>
+
+                                @* <p class="small mb-4 pb-lg-2">
+                                    <a class="text-white-50" asp-page="./ForgotPassword">Forgot your password?</a>
+                                </p> *@
+
+                                <button id="login-submit" type="submit" class="btn btn-outline-light btn-lg px-5">Login</button>
+
+                                <div class="d-flex justify-content-center text-center mt-4 pt-1">
+                                    @if ((Model.ExternalLogins?.Count ?? 0) > 0)
+                                    {
+                                        foreach (var provider in Model.ExternalLogins!)
+                                        {
+                                            <form asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="me-2">
+                                                <button type="submit" class="btn btn-link text-white" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">
+                                                    <i class="fab fa-@provider.Name.ToLower() fa-lg"></i>
+                                                </button>
+                                            </form>
+                                        }
+                                    }
+                                </div>
+                            </div>
+
+                            @* <div>
+                                <p class="mb-0">
+                                    Don't have an account?
+                                    <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl" class="text-white-50 fw-bold">Sign Up</a>
+                                </p>
+                                <p class="mt-2">
+                                    <a id="resend-confirmation" asp-page="./ResendEmailConfirmation" class="text-white-50">Resend email confirmation</a>
+                                </p>
+                            </div> *@
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
