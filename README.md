@@ -36,12 +36,12 @@ Sistema web desarrollado para la gestión de ventas e inventario de la ferreter�
 # 📸 Capturas del Sistema
 
 ## 🔐 Login
-![Login](imagenes/login.png)
+![Login](imagenes/login.PNG)
 
 ---
 
 ## 📦 Gestión de Productos
-![Productos](imagenes/productos.png)
+![Productos](imagenes/productos.PNG)
 
 
 ---
