@@ -43,20 +43,6 @@ Sistema web desarrollado para la gestión de ventas e inventario de la ferreter�
 ## 📦 Gestión de Productos
 ![Productos](imagenes/productos.png)
 
----
-
-## 🛒 Registro de Ventas
-![Ventas](imagenes/ventas.png)
-
----
-
-## 🧾 Facturación
-![Factura](imagenes/factura.png)
-
----
-
-## 📊 Dashboard
-![Dashboard](imagenes/dashboard.png)
 
 ---
 
